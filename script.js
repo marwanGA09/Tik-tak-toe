@@ -17,7 +17,7 @@ const player = function (name, mark) {
   return { getMark, getName };
 };
 
-// const player1 = player("adem", "x");
+const player1 = player("adem", "x");
 // console.log(player1.getName());
 // console.log(player1.getMark());
 // const player2 = player("kedir", "0");
@@ -34,5 +34,17 @@ const gameBoard = (function () {
   }
   return { gameBoard };
 })().gameBoard;
+
+console.log(gameBoard);
+
+const playControl = (function () {
+  markAt = function (player, row, col) {
+    gameBoard[row][col] = player.getMark();
+  };
+
+  return { markAt };
+})();
+
+playControl.markAt(player1, 1, 2);
 
 console.log(gameBoard);
