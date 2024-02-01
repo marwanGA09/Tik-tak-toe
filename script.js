@@ -17,9 +17,22 @@ const player = function (name, mark) {
   return { getMark, getName };
 };
 
-const player1 = player("adem", "x");
-console.log(player1.getName());
-console.log(player1.getMark());
-const player2 = player("kedir", "0");
-console.log(player2.getName());
-console.log(player2.getMark());
+// const player1 = player("adem", "x");
+// console.log(player1.getName());
+// console.log(player1.getMark());
+// const player2 = player("kedir", "0");
+// console.log(player2.getName());
+// console.log(player2.getMark());
+
+const gameBoard = (function () {
+  let gameBoard = [];
+  for (let i = 0; i < 3; i++) {
+    gameBoard.push([]);
+    for (let j = 0; j < 3; j++) {
+      gameBoard[i].push("");
+    }
+  }
+  return { gameBoard };
+})().gameBoard;
+
+console.log(gameBoard);
