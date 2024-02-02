@@ -22,10 +22,15 @@ body {
   width: 50rem;
   height: auto;
   background-color: aliceblue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 .container__board {
+  width: min-content;
+  height: min-content;
   margin-top: 3rem;
-  background-color: aquamarine;
   display: grid;
   grid-template-columns: repeat(3, auto);
   grid-template-rows: repeat(3, auto);
@@ -40,6 +45,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.hidden {
+  display: none;
 }
 
 /*# sourceMappingURL=style.css.map */

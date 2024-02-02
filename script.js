@@ -81,14 +81,75 @@ function display(board) {
 
 // display(gameBoard);
 const gameControl = function () {
-  init = () => {
+  this.play = document.querySelector(".play");
+
+  // this.button.addEventListener("click", this.addPopple.bind(this));
+  this.play.addEventListener("click", () => {
     this.DOM();
     this.render();
+    this.changeDisplay();
+    this.start.addEventListener("click", this.playGame.bind(this));
+  });
+
+  playGame = () => {
+    this.player1 = player(this.input1.value || "player1", "x");
+    this.player2 = player(this.input2.value || "player2", "o");
+    // console.log(this.player1.getName());
+
+    // let end = false;
+    let col, row;
+    let currentPlayer = this.player1;
+    let mainBoard = gameBoard;
+
+    this.container.addEventListener("click", (ev) => {
+      // while (ev) {
+      row = ev.target.dataset.row;
+      col = ev.target.dataset.col;
+      console.log(col, row);
+      mainBoard = playControl.markAt(currentPlayer, row, col, mainBoard);
+      let currentDiv = document.querySelector(
+        `[data-col="${col}"][data-row="${row}"]`
+      );
+      currentDiv.textContent = currentPlayer.getMark();
+      if (playControl.checkStatus(mainBoard)) {
+        this.container.classList.add("hidden");
+      } else {
+        currentPlayer =
+          currentPlayer.getName() === this.player1.getName()
+            ? this.player2
+            : this.player1;
+      }
+      // }
+    });
+
+    // row = prompt(`${currentPlayer.getName()}, row? `);
+    // col = prompt(`${currentPlayer.getName()}, col? `);
+    // mainBoard = playControl.markAt(currentPlayer, row, col, mainBoard);
+    // if (playControl.checkStatus(mainBoard)) {
+    //   end = true;
+    //   console.log("game end", currentPlayer.getName(), "win");
+    // } else {
+    //   console.log("game does not end");
+    //   currentPlayer =
+    //     currentPlayer.getName() === player1.getName() ? player2 : player1;
+    // }
+    // display(mainBoard);
+    // }
+  };
+
+  // init = () => {
+  // };
+  changeDisplay = () => {
+    this.play.classList.toggle("hidden");
+    this.player.classList.toggle("hidden");
   };
 
   DOM = () => {
     this.container = document.querySelector(".container__board");
-    console.log(this.container);
+    this.player = document.querySelector(".player");
+    this.start = document.querySelector(".start");
+    this.input1 = document.querySelector("#player1");
+    this.input2 = document.querySelector("#player2");
   };
 
   render = () => {
@@ -98,13 +159,14 @@ const gameControl = function () {
         elem.classList.add("item");
         elem.dataset.col = col;
         elem.dataset.row = row;
-        console.log(elem);
+        // console.log(elem);
         this.container.appendChild(elem);
       }
     }
   };
 
-  this.init();
+  // this.init();
+
   // const playerName1 = prompt("name for player 1?");
   // const playerName2 = prompt("name for player 2?");
   // const player1 = player(playerName1, "X");
