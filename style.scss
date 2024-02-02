@@ -1,0 +1,47 @@
+@mixin flex() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:root {
+  font-size: 62.5%;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 1.6rem;
+  background-color: aqua;
+  @include flex();
+}
+
+.container {
+  margin: 4rem 0;
+  text-align: center;
+  width: 50rem;
+  height: auto;
+  background-color: aliceblue;
+
+  &__board {
+    margin-top: 3rem;
+    background-color: aquamarine;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-template-rows: repeat(3, auto);
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+
+    .item {
+      width: 5rem;
+      height: 5rem;
+      background-color: blanchedalmond;
+      @include flex();
+    }
+  }
+}

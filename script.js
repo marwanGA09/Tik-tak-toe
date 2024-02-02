@@ -81,33 +81,57 @@ function display(board) {
 
 // display(gameBoard);
 const gameControl = function () {
-  const playerName1 = prompt("name for player 1?");
-  const playerName2 = prompt("name for player 2?");
-  const player1 = player(playerName1, "X");
-  const player2 = player(playerName2, "O");
-  console.log(`player 1 ${player1.getName()}, with mark ${player1.getMark()}`);
-  console.log(`player 2 ${player2.getName()}, with mark ${player2.getMark()}`);
-  let end = false;
-  let col, row;
-  let currentPlayer = player1;
-  let mainBoard = gameBoard;
-  console.log("basic main board");
-  display(mainBoard);
-  while (!end) {
-    console.log("current player is ", currentPlayer.getName());
-    row = prompt(`${currentPlayer.getName()}, row? `);
-    col = prompt(`${currentPlayer.getName()}, col? `);
-    mainBoard = playControl.markAt(currentPlayer, row, col, mainBoard);
-    if (playControl.checkStatus(mainBoard)) {
-      end = true;
-      console.log("game end", currentPlayer.getName(), "win");
-    } else {
-      console.log("game does not end");
-      currentPlayer =
-        currentPlayer.getName() === player1.getName() ? player2 : player1;
+  init = () => {
+    this.DOM();
+    this.render();
+  };
+
+  DOM = () => {
+    this.container = document.querySelector(".container__board");
+    console.log(this.container);
+  };
+
+  render = () => {
+    for (let row = 0; row < 3; row++) {
+      for (let col = 0; col < 3; col++) {
+        let elem = document.createElement("div");
+        elem.classList.add("item");
+        elem.dataset.col = col;
+        elem.dataset.row = row;
+        console.log(elem);
+        this.container.appendChild(elem);
+      }
     }
-    display(mainBoard);
-  }
+  };
+
+  this.init();
+  // const playerName1 = prompt("name for player 1?");
+  // const playerName2 = prompt("name for player 2?");
+  // const player1 = player(playerName1, "X");
+  // const player2 = player(playerName2, "O");
+  // console.log(`player 1 ${player1.getName()}, with mark ${player1.getMark()}`);
+  // console.log(`player 2 ${player2.getName()}, with mark ${player2.getMark()}`);
+  // let end = false;
+  // let col, row;
+  // let currentPlayer = player1;
+  // let mainBoard = gameBoard;
+  // console.log("basic main board");
+  // display(mainBoard);
+  // while (!end) {
+  //   console.log("current player is ", currentPlayer.getName());
+  //   row = prompt(`${currentPlayer.getName()}, row? `);
+  //   col = prompt(`${currentPlayer.getName()}, col? `);
+  //   mainBoard = playControl.markAt(currentPlayer, row, col, mainBoard);
+  //   if (playControl.checkStatus(mainBoard)) {
+  //     end = true;
+  //     console.log("game end", currentPlayer.getName(), "win");
+  //   } else {
+  //     console.log("game does not end");
+  //     currentPlayer =
+  //       currentPlayer.getName() === player1.getName() ? player2 : player1;
+  //   }
+  //   display(mainBoard);
+  // }
 
   console.log("finish");
 };
