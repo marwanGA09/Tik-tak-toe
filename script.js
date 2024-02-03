@@ -100,12 +100,14 @@ const gameControl = (function () {
   playGame = () => {
     this.player1 = player(this.input1.value || "player1", "x");
     this.player2 = player(this.input2.value || "player2", "o");
+    this.turn.classList.remove("hidden");
 
     let col,
       row,
       currentPlayer = this.player1,
       mainBoard = gameBoard;
 
+    this.turn.textContent = `${currentPlayer.getName()}'s turn ...`;
     this.container.addEventListener("click", (ev) => {
       [row, col] = [ev.target.dataset.row, ev.target.dataset.col];
       // col = ev.target.dataset.col;
@@ -134,6 +136,8 @@ const gameControl = (function () {
               currentPlayer.getName() === this.player1.getName()
                 ? this.player2
                 : this.player1;
+
+            this.turn.textContent = `${currentPlayer.getName()}'s turn ...`;
           }
         }
       }
@@ -154,6 +158,7 @@ const gameControl = (function () {
     this.input1 = document.querySelector("#player1");
     this.input2 = document.querySelector("#player2");
     this.dialog = document.querySelector(".dialog");
+    this.turn = document.querySelector(".turn");
   };
 
   render = () => {
