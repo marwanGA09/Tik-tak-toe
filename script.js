@@ -87,6 +87,19 @@ const gameControl = function () {
     this.start.addEventListener("click", this.playGame.bind(this));
   });
 
+  // console.log(this.replay);
+  // if (this.replay) {
+  //   // console.log(this.replay);
+  //   this.replay.addEventListener("click", () => {
+  //     this.dialog.close();
+  //     document.location.reload();
+  //     this.DOM();
+  //     this.render();
+  //     this.changeDisplay();
+  //     this.start.addEventListener("click", this.playGame.bind(this));
+  //   });
+  // }
+
   playGame = () => {
     this.player1 = player(this.input1.value || "player1", "x");
     this.player2 = player(this.input2.value || "player2", "o");
@@ -110,7 +123,16 @@ const gameControl = function () {
         mainBoard = board.gameBoard;
         ev.target.textContent = currentPlayer.getMark();
         if (playControl.checkStatus(mainBoard)) {
+          this.dialog.showModal();
           this.winnerDisplay.textContent = `${currentPlayer.getName()} win the game`;
+          this.replay.addEventListener("click", () => {
+            this.dialog.close();
+            document.location.reload();
+            this.DOM();
+            this.render();
+            this.changeDisplay();
+            this.start.addEventListener("click", this.playGame.bind(this));
+          });
           // this.start.removeEventListener("click", this.playGame.bind(this));
           // this.changeDisplay();
           // this.player.classList.remove("hidden");
@@ -152,9 +174,11 @@ const gameControl = function () {
     this.container = document.querySelector(".container__board");
     this.player = document.querySelector(".player");
     this.start = document.querySelector(".start");
+    this.replay = document.querySelector(".replay");
     this.winnerDisplay = document.querySelector(".winner-display");
     this.input1 = document.querySelector("#player1");
     this.input2 = document.querySelector("#player2");
+    this.dialog = document.querySelector(".dialog");
   };
 
   render = () => {
