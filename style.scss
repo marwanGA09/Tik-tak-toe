@@ -17,17 +17,50 @@
 body {
   font-size: 1.6rem;
   background-color: aqua;
+  width: 100vw;
+  height: 100vh;
   @include flex();
+  flex-direction: column;
+  position: relative;
+  // justify-content: space-between;
 }
 
 .container {
-  margin: 4rem 0;
+  h1 {
+    font-size: 7rem;
+    font-style: italic;
+  }
+  // margin: ;
+  padding: 2rem 1rem;
   text-align: center;
-  width: 50rem;
+  width: min(50rem, 80vw);
   height: auto;
   background-color: aliceblue;
   @include flex();
+  gap: 1rem;
   flex-direction: column;
+
+  .player div {
+    @include flex();
+    column-gap: 3rem;
+    row-gap: 2rem;
+    // flex-direction: column;
+    flex-wrap: wrap;
+  }
+
+  .player.hidden {
+    display: none;
+  }
+
+  label {
+    display: block;
+    input {
+      margin-left: 1rem;
+      width: 15rem;
+      padding: 0.2rem 1rem;
+      display: inline-block;
+    }
+  }
 
   &__board {
     width: min-content;
@@ -36,15 +69,18 @@ body {
     display: grid;
     grid-template-columns: repeat(3, auto);
     grid-template-rows: repeat(3, auto);
-    gap: 1rem;
+    gap: 2rem;
     justify-content: center;
     align-items: center;
 
     .item {
-      width: 5rem;
-      height: 5rem;
+      width: 9rem;
+      height: 9rem;
       background-color: blanchedalmond;
       @include flex();
+      border-radius: 1rem;
+      font-size: 8rem;
+      box-shadow: 0 0 0.2rem 0.3rem gray;
     }
   }
 }
@@ -53,6 +89,50 @@ body {
   display: none;
 }
 
-// div[data-col="1"][data-row="0"] {
-//   background-color: red;
-// }
+button {
+  background-color: #d18e35;
+  padding: 0.4rem 3.5rem;
+  border-radius: 2rem;
+  margin-top: 3rem;
+  font-size: 2rem;
+  color: white;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #d1974c;
+  }
+}
+
+.dialog {
+  border: 0;
+  box-shadow: 0 0 0.3rem 0.3rem grey;
+  width: 80rem;
+  height: 30rem;
+  margin: auto auto;
+  background-color: rgba(240, 248, 255, 0.561);
+  gap: 3rem;
+
+  h1 {
+    margin: 6rem 3rem 1rem;
+    font-size: 6rem;
+    text-transform: capitalize;
+  }
+}
+
+.dialog::backdrop {
+  background-color: rgba(0, 255, 255, 0.796);
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
+  background-color: #d18e35;
+  padding: 1rem;
+  text-align: center;
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
+}

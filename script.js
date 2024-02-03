@@ -32,10 +32,7 @@ const playControl = (function () {
     if (gameBoard[row][col] == "") {
       gameBoard[row][col] = player.getMark();
       notRemark = true;
-      if (count <= 6) {
-        count++;
-        console.log(count);
-      }
+      if (count <= 6) count++;
     }
     return { gameBoard, notRemark };
   };
@@ -93,9 +90,10 @@ const gameControl = (function () {
     this.player1 = player(this.input1.value || "player1", "x");
     this.player2 = player(this.input2.value || "player2", "o");
 
-    let col, row;
-    let currentPlayer = this.player1;
-    let mainBoard = gameBoard;
+    let col,
+      row,
+      currentPlayer = this.player1,
+      mainBoard = gameBoard;
 
     this.container.addEventListener("click", (ev) => {
       [row, col] = [ev.target.dataset.row, ev.target.dataset.col];
@@ -106,8 +104,11 @@ const gameControl = (function () {
       // console.log(board.gameBoard);
       // console.log(board.notRemark);
       if (board.notRemark) {
-        mainBoard = board.gameBoard;
-        ev.target.textContent = currentPlayer.getMark();
+        [mainBoard, ev.target.textContent] = [
+          board.gameBoard,
+          currentPlayer.getMark(),
+        ];
+
         if (playControl.checkStatus(mainBoard)) {
           this.dialog.showModal();
           this.winnerDisplay.textContent = `${currentPlayer.getName()} win the game`;
