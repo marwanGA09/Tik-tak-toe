@@ -73,15 +73,21 @@ const playControl = (function () {
   return { markAt, checkStatus };
 })();
 
-const gameControl = function () {
-  this.play = document.querySelector(".play");
-
-  this.play.addEventListener("click", () => {
+const gameControl = (function () {
+  loadPage = () => {
     this.DOM();
     this.render();
     this.changeDisplay();
     this.start.addEventListener("click", this.playGame.bind(this));
-  });
+  };
+  reloadPage = () => {
+    this.dialog.close();
+    document.location.reload();
+    this.loadPage();
+  };
+
+  this.play = document.querySelector(".play");
+  this.play.addEventListener("click", this.loadPage.bind(this));
 
   playGame = () => {
     this.player1 = player(this.input1.value || "player1", "x");
@@ -92,8 +98,8 @@ const gameControl = function () {
     let mainBoard = gameBoard;
 
     this.container.addEventListener("click", (ev) => {
-      row = ev.target.dataset.row;
-      col = ev.target.dataset.col;
+      [row, col] = [ev.target.dataset.row, ev.target.dataset.col];
+      // col = ev.target.dataset.col;
       // console.log(col, row);
 
       let board = playControl.markAt(currentPlayer, row, col, mainBoard);
@@ -105,14 +111,7 @@ const gameControl = function () {
         if (playControl.checkStatus(mainBoard)) {
           this.dialog.showModal();
           this.winnerDisplay.textContent = `${currentPlayer.getName()} win the game`;
-          this.replay.addEventListener("click", () => {
-            this.dialog.close();
-            document.location.reload();
-            this.DOM();
-            this.render();
-            this.changeDisplay();
-            this.start.addEventListener("click", this.playGame.bind(this));
-          });
+          this.replay.addEventListener("click", this.reloadPage);
         } else {
           currentPlayer =
             currentPlayer.getName() === this.player1.getName()
@@ -122,6 +121,7 @@ const gameControl = function () {
       }
     });
   };
+
   changeDisplay = () => {
     this.play.classList.toggle("hidden");
     this.player.classList.toggle("hidden");
@@ -150,5 +150,4 @@ const gameControl = function () {
       }
     }
   };
-};
-gameControl();
+})();
