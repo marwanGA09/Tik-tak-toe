@@ -97,7 +97,8 @@ button {
   border-radius: 2rem;
   margin-top: 3rem;
   font-size: 2rem;
-  color: white;
+  color: black;
+  font-weight: 700;
   border: 0;
 }
 button:hover {

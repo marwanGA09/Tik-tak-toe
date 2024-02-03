@@ -67,7 +67,18 @@ const playControl = (function () {
     return false;
   };
 
-  return { markAt, checkStatus };
+  isDraw = (board) => {
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        if (board[i][j] === "") {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
+  return { markAt, checkStatus, isDraw };
 })();
 
 const gameControl = (function () {
@@ -109,15 +120,21 @@ const gameControl = (function () {
           currentPlayer.getMark(),
         ];
 
-        if (playControl.checkStatus(mainBoard)) {
+        if (playControl.isDraw(mainBoard)) {
           this.dialog.showModal();
-          this.winnerDisplay.textContent = `${currentPlayer.getName()} win the game`;
+          this.winnerDisplay.textContent = `Draw`;
           this.replay.addEventListener("click", this.reloadPage);
         } else {
-          currentPlayer =
-            currentPlayer.getName() === this.player1.getName()
-              ? this.player2
-              : this.player1;
+          if (playControl.checkStatus(mainBoard)) {
+            this.dialog.showModal();
+            this.winnerDisplay.textContent = `${currentPlayer.getName()} win the game`;
+            this.replay.addEventListener("click", this.reloadPage);
+          } else {
+            currentPlayer =
+              currentPlayer.getName() === this.player1.getName()
+                ? this.player2
+                : this.player1;
+          }
         }
       }
     });
