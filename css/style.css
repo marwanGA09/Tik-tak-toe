@@ -10,7 +10,7 @@
 
 body {
   font-size: 1.6rem;
-  background-color: aqua;
+  background-color: #f9c8c5;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -25,7 +25,6 @@ body {
   text-align: center;
   width: min(50rem, 80vw);
   height: auto;
-  background-color: aliceblue;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,6 +54,9 @@ body {
   width: 15rem;
   padding: 0.2rem 1rem;
   display: inline-block;
+  border: 0;
+  border-radius: 1rem;
+  background-color: #e8e8fd;
 }
 .container__board {
   width: min-content;
@@ -84,16 +86,17 @@ body {
 }
 
 button {
-  background-color: #d18e35;
-  padding: 0.4rem 3.5rem;
+  background-color: #3aff47;
+  padding: 0.5rem 5.5rem;
   border-radius: 2rem;
   margin-top: 3rem;
   font-size: 2rem;
   color: white;
+  border: 0;
 }
 button:hover {
   cursor: pointer;
-  background-color: #d1974c;
+  background-color: #6dff77;
 }
 
 .dialog {
@@ -102,8 +105,15 @@ button:hover {
   width: 80rem;
   height: 30rem;
   margin: auto auto;
-  background-color: rgba(240, 248, 255, 0.561);
+  background-color: rgba(233, 255, 65, 0.938);
+  opacity: 0.6;
   gap: 3rem;
+}
+.dialog button {
+  background-color: rgb(0, 120, 0);
+  box-shadow: 0 0 0.2rem 0.2rem rgb(166, 166, 0);
+  color: rgb(0, 0, 0);
+  font-weight: 900;
 }
 .dialog h1 {
   margin: 6rem 3rem 1rem;
@@ -112,20 +122,28 @@ button:hover {
 }
 
 .dialog::backdrop {
-  background-color: rgba(0, 255, 255, 0.796);
+  background-color: rgba(177, 177, 177, 0.873);
+  opacity: 0.8;
 }
 
 footer {
   position: absolute;
   bottom: 0;
   width: 100vw;
-  background-color: #d18e35;
+  background-color: #3aff47;
   padding: 1rem;
   text-align: center;
 }
 footer a {
   text-decoration: none;
-  color: white;
+  color: rgb(122, 57, 57);
+  position: relative;
+}
+footer a svg {
+  position: absolute;
+  right: -3rem;
+  width: 2rem;
+  height: 2rem;
 }
 
 /*# sourceMappingURL=style.css.map */
