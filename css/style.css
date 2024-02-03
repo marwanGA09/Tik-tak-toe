@@ -20,6 +20,10 @@ body {
   position: relative;
 }
 
+h1 {
+  font-family: "Caveat", serif;
+}
+
 .container {
   padding: 2rem 1rem;
   text-align: center;
@@ -79,6 +83,8 @@ body {
   border-radius: 1rem;
   font-size: 8rem;
   box-shadow: 0 0 0.2rem 0.3rem gray;
+  font-family: "Protest Riot", sans-serif;
+  font-style: italic;
 }
 
 .hidden {
