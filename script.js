@@ -52,7 +52,6 @@ const playControl = (function () {
             gameBoard[i][i] === gameBoard[(i + 2) % 3][i] &&
             gameBoard[i][i] !== "")
         ) {
-          // console.log("End normal line");
           return true;
         }
       }
@@ -65,7 +64,6 @@ const playControl = (function () {
           gameBoard[0][0] === gameBoard[1][1] &&
           gameBoard[1][1] === gameBoard[2][2])
       ) {
-        // console.log(gameBoard[0][0], gameBoard[1][1], gameBoard[2][2]);
         return true;
       }
     }
@@ -75,11 +73,9 @@ const playControl = (function () {
   return { markAt, checkStatus };
 })();
 
-// display(gameBoard);
 const gameControl = function () {
   this.play = document.querySelector(".play");
 
-  // this.button.addEventListener("click", this.addPopple.bind(this));
   this.play.addEventListener("click", () => {
     this.DOM();
     this.render();
@@ -87,38 +83,22 @@ const gameControl = function () {
     this.start.addEventListener("click", this.playGame.bind(this));
   });
 
-  // console.log(this.replay);
-  // if (this.replay) {
-  //   // console.log(this.replay);
-  //   this.replay.addEventListener("click", () => {
-  //     this.dialog.close();
-  //     document.location.reload();
-  //     this.DOM();
-  //     this.render();
-  //     this.changeDisplay();
-  //     this.start.addEventListener("click", this.playGame.bind(this));
-  //   });
-  // }
-
   playGame = () => {
     this.player1 = player(this.input1.value || "player1", "x");
     this.player2 = player(this.input2.value || "player2", "o");
-    // console.log(this.player1.getName());
 
-    // let end = false;
     let col, row;
     let currentPlayer = this.player1;
     let mainBoard = gameBoard;
 
     this.container.addEventListener("click", (ev) => {
-      // while (ev) {
       row = ev.target.dataset.row;
       col = ev.target.dataset.col;
-      console.log(col, row);
+      // console.log(col, row);
 
       let board = playControl.markAt(currentPlayer, row, col, mainBoard);
-      console.log(board.gameBoard);
-      console.log(board.notRemark);
+      // console.log(board.gameBoard);
+      // console.log(board.notRemark);
       if (board.notRemark) {
         mainBoard = board.gameBoard;
         ev.target.textContent = currentPlayer.getMark();
@@ -133,38 +113,15 @@ const gameControl = function () {
             this.changeDisplay();
             this.start.addEventListener("click", this.playGame.bind(this));
           });
-          // this.start.removeEventListener("click", this.playGame.bind(this));
-          // this.changeDisplay();
-          // this.player.classList.remove("hidden");
-          // this.removeAllChildren();
-          // this.render();
         } else {
           currentPlayer =
             currentPlayer.getName() === this.player1.getName()
               ? this.player2
               : this.player1;
         }
-        // }
       }
     });
-
-    // row = prompt(`${currentPlayer.getName()}, row? `);
-    // col = prompt(`${currentPlayer.getName()}, col? `);
-    // mainBoard = playControl.markAt(currentPlayer, row, col, mainBoard);
-    // if (playControl.checkStatus(mainBoard)) {
-    //   end = true;
-    //   console.log("game end", currentPlayer.getName(), "win");
-    // } else {
-    //   console.log("game does not end");
-    //   currentPlayer =
-    //     currentPlayer.getName() === player1.getName() ? player2 : player1;
-    // }
-    // display(mainBoard);
-    // }
   };
-
-  // init = () => {
-  // };
   changeDisplay = () => {
     this.play.classList.toggle("hidden");
     this.player.classList.toggle("hidden");
@@ -193,65 +150,5 @@ const gameControl = function () {
       }
     }
   };
-
-  removeAllChildren = () => {
-    this.itemArray = document.querySelectorAll(".item");
-    console.log("item array", this.itemArray);
-    this.itemArray.forEach((item) => {
-      console.log(item);
-      this.container.removeChild(item);
-    });
-  };
-
-  // this.init();
-
-  // const playerName1 = prompt("name for player 1?");
-  // const playerName2 = prompt("name for player 2?");
-  // const player1 = player(playerName1, "X");
-  // const player2 = player(playerName2, "O");
-  // console.log(`player 1 ${player1.getName()}, with mark ${player1.getMark()}`);
-  // console.log(`player 2 ${player2.getName()}, with mark ${player2.getMark()}`);
-  // let end = false;
-  // let col, row;
-  // let currentPlayer = player1;
-  // let mainBoard = gameBoard;
-  // console.log("basic main board");
-  // display(mainBoard);
-  // while (!end) {
-  //   console.log("current player is ", currentPlayer.getName());
-  //   row = prompt(`${currentPlayer.getName()}, row? `);
-  //   col = prompt(`${currentPlayer.getName()}, col? `);
-  //   mainBoard = playControl.markAt(currentPlayer, row, col, mainBoard);
-  //   if (playControl.checkStatus(mainBoard)) {
-  //     end = true;
-  //     console.log("game end", currentPlayer.getName(), "win");
-  //   } else {
-  //     console.log("game does not end");
-  //     currentPlayer =
-  //       currentPlayer.getName() === player1.getName() ? player2 : player1;
-  //   }
-  //   display(mainBoard);
-  // }
-
-  console.log("finish");
 };
-// console.log("a" === "a" && "a" === "a");
 gameControl();
-// const playerName1 = prompt("name for player 1?");
-// const playerName2 = prompt("name for player 2?");
-// const player1 = player(playerName1, "X");
-// const player2 = player(playerName2, "O");
-// let player1 = player("adem", "x");
-// let player2 = player("kedir", "0");
-
-// console.log(player1.getName());
-// // console.log(player2);
-// console.log(`player 1 ${player1.getName()}, with mark ${player1.getMark()}`);
-// console.log(`player 2 ${player2.getName()}, with mark ${player2.getMark()}`);
-
-// console.log(gameBoard);
-// function display(board) {
-//   for (i = 0; i < board.length; i++) {
-//     console.log(board[i]);
-//   }
-// }
