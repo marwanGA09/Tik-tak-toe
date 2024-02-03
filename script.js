@@ -27,15 +27,17 @@ const playControl = (function () {
   let count = 0;
 
   markAt = function (player, row, col, board) {
+    let notRemark = false;
     let gameBoard = board;
-    if (!gameBoard[row][col]) {
+    if (gameBoard[row][col] == "") {
       gameBoard[row][col] = player.getMark();
+      notRemark = true;
       if (count <= 6) {
         count++;
         console.log(count);
       }
     }
-    return gameBoard;
+    return { gameBoard, notRemark };
   };
 
   checkStatus = function (board) {
@@ -73,12 +75,6 @@ const playControl = (function () {
   return { markAt, checkStatus };
 })();
 
-function display(board) {
-  for (i = 0; i < board.length; i++) {
-    console.log(board[i]);
-  }
-}
-
 // display(gameBoard);
 const gameControl = function () {
   this.play = document.querySelector(".play");
@@ -106,20 +102,28 @@ const gameControl = function () {
       row = ev.target.dataset.row;
       col = ev.target.dataset.col;
       console.log(col, row);
-      mainBoard = playControl.markAt(currentPlayer, row, col, mainBoard);
-      let currentDiv = document.querySelector(
-        `[data-col="${col}"][data-row="${row}"]`
-      );
-      currentDiv.textContent = currentPlayer.getMark();
-      if (playControl.checkStatus(mainBoard)) {
-        this.container.classList.add("hidden");
-      } else {
-        currentPlayer =
-          currentPlayer.getName() === this.player1.getName()
-            ? this.player2
-            : this.player1;
+
+      let board = playControl.markAt(currentPlayer, row, col, mainBoard);
+      console.log(board.gameBoard);
+      console.log(board.notRemark);
+      if (board.notRemark) {
+        mainBoard = board.gameBoard;
+        ev.target.textContent = currentPlayer.getMark();
+        if (playControl.checkStatus(mainBoard)) {
+          this.winnerDisplay.textContent = `${currentPlayer.getName()} win the game`;
+          // this.start.removeEventListener("click", this.playGame.bind(this));
+          // this.changeDisplay();
+          // this.player.classList.remove("hidden");
+          // this.removeAllChildren();
+          // this.render();
+        } else {
+          currentPlayer =
+            currentPlayer.getName() === this.player1.getName()
+              ? this.player2
+              : this.player1;
+        }
+        // }
       }
-      // }
     });
 
     // row = prompt(`${currentPlayer.getName()}, row? `);
@@ -148,6 +152,7 @@ const gameControl = function () {
     this.container = document.querySelector(".container__board");
     this.player = document.querySelector(".player");
     this.start = document.querySelector(".start");
+    this.winnerDisplay = document.querySelector(".winner-display");
     this.input1 = document.querySelector("#player1");
     this.input2 = document.querySelector("#player2");
   };
@@ -163,6 +168,15 @@ const gameControl = function () {
         this.container.appendChild(elem);
       }
     }
+  };
+
+  removeAllChildren = () => {
+    this.itemArray = document.querySelectorAll(".item");
+    console.log("item array", this.itemArray);
+    this.itemArray.forEach((item) => {
+      console.log(item);
+      this.container.removeChild(item);
+    });
   };
 
   // this.init();
@@ -212,3 +226,8 @@ gameControl();
 // console.log(`player 2 ${player2.getName()}, with mark ${player2.getMark()}`);
 
 // console.log(gameBoard);
+// function display(board) {
+//   for (i = 0; i < board.length; i++) {
+//     console.log(board[i]);
+//   }
+// }
