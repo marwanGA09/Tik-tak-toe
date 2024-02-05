@@ -82,100 +82,118 @@ class PlayControl {
 
 // ******************************************
 // ******************************************
-// class GameControl {
-//   play = document.querySelector(".play");
-//   // play.addEventListener("click", loadPage.bind(this));
+// ******************************************
+// ******************************************
+class GameControl {
+  static play;
+  static mainMethod() {
+    GameControl.play = document.querySelector(".play");
+    GameControl.play.addEventListener("click", GameControl.#loadPage());
+  }
 
-//   loadPage() {
-//     this.DOM();
-//     this.render();
-//     this.changeDisplay();
-//     this.start.addEventListener("click", this.playGame.bind(this));
-//   }
+  static container = document.querySelector(".container__board");
+  static player = document.querySelector(".player");
+  static start = document.querySelector(".start");
+  static replay = document.querySelector(".replay");
+  static winnerDisplay = document.querySelector(".winner-display");
+  static input1 = document.querySelector("#player1");
+  static input2 = document.querySelector("#player2");
+  static dialog = document.querySelector(".dialog");
+  static turn = document.querySelector(".turn");
+  static player1;
+  static player2;
 
-//   reloadPage() {
-//     this.dialog.close();
-//     document.location.reload();
-//     this.loadPage();
-//   }
+  static #loadPage() {
+    GameControl.#render();
+    GameControl.#changeDisplay();
+    GameControl.start.addEventListener("click", GameControl.#playGame());
+  }
 
-//   playGame() {
-//     this.player1 = player(this.input1.value || "player1", "x");
-//     this.player2 = player(this.input2.value || "player2", "o");
-//     this.turn.classList.remove("hidden");
+  static #reloadPage() {
+    GameControl.dialog.close();
+    document.location.reload();
+    GameControl.#loadPage();
+  }
 
-//     let col,
-//       row,
-//       currentPlayer = this.player1,
-//       mainBoard = gameBoard;
+  static #playGame() {
+    GameControl.player1 = new Player(
+      GameControl.input1.value || "player1",
+      "x"
+    );
+    GameControl.player2 = new Player(
+      GameControl.input2.value || "player2",
+      "o"
+    );
+    GameControl.turn.classList.remove("hidden");
 
-//     this.turn.textContent = `${currentPlayer.getName()}'s turn ...`;
-//     this.container.addEventListener("click", (ev) => {
-//       [row, col] = [ev.target.dataset.row, ev.target.dataset.col];
-//       // col = ev.target.dataset.col;
-//       // console.log(col, row);
+    let col,
+      row,
+      currentPlayer = GameControl.player1,
+      mainBoard = gameBoard;
 
-//       let board = playControl.markAt(currentPlayer, row, col, mainBoard);
-//       // console.log(board.gameBoard);
-//       // console.log(board.notRemark);
-//       if (board.notRemark) {
-//         [mainBoard, ev.target.textContent] = [
-//           board.gameBoard,
-//           currentPlayer.getMark(),
-//         ];
+    GameControl.turn.textContent = `${currentPlayer.getName()}'s turn ...`;
+    GameControl.container.addEventListener("click", (ev) => {
+      [row, col] = [ev.target.dataset.row, ev.target.dataset.col];
+      // col = ev.target.dataset.col;
+      // console.log(col, row);
 
-//         if (playControl.isDraw(mainBoard)) {
-//           this.dialog.showModal();
-//           this.winnerDisplay.textContent = `Draw`;
-//           this.replay.addEventListener("click", this.reloadPage);
-//         } else {
-//           if (playControl.checkStatus(mainBoard)) {
-//             this.dialog.showModal();
-//             this.winnerDisplay.textContent = `${currentPlayer.getName()} win the game`;
-//             this.replay.addEventListener("click", this.reloadPage);
-//           } else {
-//             currentPlayer =
-//               currentPlayer.getName() === this.player1.getName()
-//                 ? this.player2
-//                 : this.player1;
+      let board = PlayControl.markAt(currentPlayer, row, col, mainBoard);
+      // console.log(board.gameBoard);
+      // console.log(board.notRemark);
+      if (board.notRemark) {
+        [mainBoard, ev.target.textContent] = [
+          board.gameBoard,
+          currentPlayer.getMark(),
+        ];
 
-//             this.turn.textContent = `${currentPlayer.getName()}'s turn ...`;
-//           }
-//         }
-//       }
-//     });
-//   }
+        if (PlayControl.isDraw(mainBoard)) {
+          GameControl.dialog.showModal();
+          GameControl.winnerDisplay.textContent = `Draw`;
+          GameControl.replay.addEventListener(
+            "click",
+            GameControl.#reloadPage()
+          );
+        } else {
+          if (PlayControl.checkStatus(mainBoard)) {
+            GameControl.dialog.showModal();
+            GameControl.winnerDisplay.textContent = `${currentPlayer.getName()} win the game`;
+            GameControl.replay.addEventListener(
+              "click",
+              GameControl.#reloadPage()
+            );
+          } else {
+            currentPlayer =
+              currentPlayer.getName() === GameControl.player1.getName()
+                ? GameControl.player2
+                : GameControl.player1;
 
-//   changeDisplay() {
-//     this.play.classList.toggle("hidden");
-//     this.player.classList.toggle("hidden");
-//   }
+            GameControl.turn.textContent = `${currentPlayer.getName()}'s turn ...`;
+          }
+        }
+      }
+    });
+  }
 
-//   DOM() {
-//     this.container = document.querySelector(".container__board");
-//     this.player = document.querySelector(".player");
-//     this.start = document.querySelector(".start");
-//     this.replay = document.querySelector(".replay");
-//     this.winnerDisplay = document.querySelector(".winner-display");
-//     this.input1 = document.querySelector("#player1");
-//     this.input2 = document.querySelector("#player2");
-//     this.dialog = document.querySelector(".dialog");
-//     this.turn = document.querySelector(".turn");
-//   }
+  static #changeDisplay() {
+    GameControl.play.classList.toggle("hidden");
+    GameControl.player.classList.toggle("hidden");
+  }
 
-//   render() {
-//     for (let row = 0; row < 3; row++) {
-//       for (let col = 0; col < 3; col++) {
-//         let elem = document.createElement("div");
-//         elem.classList.add("item");
-//         elem.dataset.col = col;
-//         elem.dataset.row = row;
-//         // console.log(elem);
-//         this.container.appendChild(elem);
-//       }
-//     }
-//   }
-// }
+  static #render() {
+    for (let row = 0; row < 3; row++) {
+      for (let col = 0; col < 3; col++) {
+        let elem = document.createElement("div");
+        elem.classList.add("item");
+        elem.dataset.col = col;
+        elem.dataset.row = row;
+        // console.log(elem);
+        GameControl.container.appendChild(elem);
+      }
+    }
+  }
+}
+
+GameControl.mainMethod();
 
 // ******************************************
 // ******************************************
@@ -256,96 +274,97 @@ class PlayControl {
 
 // ******************************************
 // ******************************************
-const gameControl = (function () {
-  loadPage = () => {
-    this.DOM();
-    this.render();
-    this.changeDisplay();
-    this.start.addEventListener("click", this.playGame.bind(this));
-  };
-  reloadPage = () => {
-    this.dialog.close();
-    document.location.reload();
-    this.loadPage();
-  };
 
-  this.play = document.querySelector(".play");
-  this.play.addEventListener("click", this.loadPage.bind(this));
+// const gameControl = (function () {
+//   loadPage = () => {
+//     this.DOM();
+//     this.render();
+//     this.changeDisplay();
+//     this.start.addEventListener("click", this.playGame.bind(this));
+//   };
+//   reloadPage = () => {
+//     this.dialog.close();
+//     document.location.reload();
+//     this.loadPage();
+//   };
 
-  playGame = () => {
-    this.player1 = new Player(this.input1.value || "player1", "x");
-    this.player2 = new Player(this.input2.value || "player2", "o");
-    this.turn.classList.remove("hidden");
+//   this.play = document.querySelector(".play");
+//   this.play.addEventListener("click", this.loadPage.bind(this));
 
-    let col,
-      row,
-      currentPlayer = this.player1,
-      mainBoard = gameBoard;
+//   playGame = () => {
+//     this.player1 = new Player(this.input1.value || "player1", "x");
+//     this.player2 = new Player(this.input2.value || "player2", "o");
+//     this.turn.classList.remove("hidden");
 
-    this.turn.textContent = `${currentPlayer.getName()}'s turn ...`;
-    this.container.addEventListener("click", (ev) => {
-      [row, col] = [ev.target.dataset.row, ev.target.dataset.col];
-      // col = ev.target.dataset.col;
-      // console.log(col, row);
+//     let col,
+//       row,
+//       currentPlayer = this.player1,
+//       mainBoard = gameBoard;
 
-      let board = PlayControl.markAt(currentPlayer, row, col, mainBoard);
-      // console.log(board.gameBoard);
-      // console.log(board.notRemark);
-      if (board.notRemark) {
-        [mainBoard, ev.target.textContent] = [
-          board.gameBoard,
-          currentPlayer.getMark(),
-        ];
+//     this.turn.textContent = `${currentPlayer.getName()}'s turn ...`;
+//     this.container.addEventListener("click", (ev) => {
+//       [row, col] = [ev.target.dataset.row, ev.target.dataset.col];
+//       // col = ev.target.dataset.col;
+//       // console.log(col, row);
 
-        if (PlayControl.isDraw(mainBoard)) {
-          this.dialog.showModal();
-          this.winnerDisplay.textContent = `Draw`;
-          this.replay.addEventListener("click", this.reloadPage);
-        } else {
-          if (PlayControl.checkStatus(mainBoard)) {
-            this.dialog.showModal();
-            this.winnerDisplay.textContent = `${currentPlayer.getName()} win the game`;
-            this.replay.addEventListener("click", this.reloadPage);
-          } else {
-            currentPlayer =
-              currentPlayer.getName() === this.player1.getName()
-                ? this.player2
-                : this.player1;
+//       let board = PlayControl.markAt(currentPlayer, row, col, mainBoard);
+//       // console.log(board.gameBoard);
+//       // console.log(board.notRemark);
+//       if (board.notRemark) {
+//         [mainBoard, ev.target.textContent] = [
+//           board.gameBoard,
+//           currentPlayer.getMark(),
+//         ];
 
-            this.turn.textContent = `${currentPlayer.getName()}'s turn ...`;
-          }
-        }
-      }
-    });
-  };
+//         if (PlayControl.isDraw(mainBoard)) {
+//           this.dialog.showModal();
+//           this.winnerDisplay.textContent = `Draw`;
+//           this.replay.addEventListener("click", this.reloadPage);
+//         } else {
+//           if (PlayControl.checkStatus(mainBoard)) {
+//             this.dialog.showModal();
+//             this.winnerDisplay.textContent = `${currentPlayer.getName()} win the game`;
+//             this.replay.addEventListener("click", this.reloadPage);
+//           } else {
+//             currentPlayer =
+//               currentPlayer.getName() === this.player1.getName()
+//                 ? this.player2
+//                 : this.player1;
 
-  changeDisplay = () => {
-    this.play.classList.toggle("hidden");
-    this.player.classList.toggle("hidden");
-  };
+//             this.turn.textContent = `${currentPlayer.getName()}'s turn ...`;
+//           }
+//         }
+//       }
+//     });
+//   };
 
-  DOM = () => {
-    this.container = document.querySelector(".container__board");
-    this.player = document.querySelector(".player");
-    this.start = document.querySelector(".start");
-    this.replay = document.querySelector(".replay");
-    this.winnerDisplay = document.querySelector(".winner-display");
-    this.input1 = document.querySelector("#player1");
-    this.input2 = document.querySelector("#player2");
-    this.dialog = document.querySelector(".dialog");
-    this.turn = document.querySelector(".turn");
-  };
+//   changeDisplay = () => {
+//     this.play.classList.toggle("hidden");
+//     this.player.classList.toggle("hidden");
+//   };
 
-  render = () => {
-    for (let row = 0; row < 3; row++) {
-      for (let col = 0; col < 3; col++) {
-        let elem = document.createElement("div");
-        elem.classList.add("item");
-        elem.dataset.col = col;
-        elem.dataset.row = row;
-        // console.log(elem);
-        this.container.appendChild(elem);
-      }
-    }
-  };
-})();
+//   DOM = () => {
+//     this.container = document.querySelector(".container__board");
+//     this.player = document.querySelector(".player");
+//     this.start = document.querySelector(".start");
+//     this.replay = document.querySelector(".replay");
+//     this.winnerDisplay = document.querySelector(".winner-display");
+//     this.input1 = document.querySelector("#player1");
+//     this.input2 = document.querySelector("#player2");
+//     this.dialog = document.querySelector(".dialog");
+//     this.turn = document.querySelector(".turn");
+//   };
+
+//   render = () => {
+//     for (let row = 0; row < 3; row++) {
+//       for (let col = 0; col < 3; col++) {
+//         let elem = document.createElement("div");
+//         elem.classList.add("item");
+//         elem.dataset.col = col;
+//         elem.dataset.row = row;
+//         // console.log(elem);
+//         this.container.appendChild(elem);
+//       }
+//     }
+//   };
+// })();
