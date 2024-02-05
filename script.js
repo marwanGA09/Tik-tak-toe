@@ -1,16 +1,31 @@
-const player = function (name, mark) {
-  let p_mark = mark;
-  let p_name = name;
+// const player = function (name, mark) {
+//   let p_mark = mark;
+//   let p_name = name;
 
-  getMark = () => {
-    return p_mark;
-  };
+//   getMark = () => {
+//     return p_mark;
+//   };
 
-  getName = () => {
-    return p_name;
-  };
-  return { getMark, getName };
-};
+//   getName = () => {
+//     return p_name;
+//   };
+//   return { getMark, getName };
+// };
+
+class Player {
+  constructor(name, mark) {
+    this.p_mark = mark;
+    this.p_name = name;
+  }
+
+  getMark() {
+    return this.p_mark;
+  }
+
+  getName() {
+    return this.p_name;
+  }
+}
 
 gameBoard = (function () {
   let gameBoardArray = [];
