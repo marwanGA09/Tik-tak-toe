@@ -38,23 +38,81 @@ gameBoard = (function () {
   return gameBoardArray;
 })();
 
-const playControl = (function () {
-  let count = 0;
+// const playControl = (function () {
+//   let count = 0;
 
-  markAt = function (player, row, col, board) {
+//   markAt = function (player, row, col, board) {
+//     let notRemark = false;
+//     let gameBoard = board;
+//     if (gameBoard[row][col] == "") {
+//       gameBoard[row][col] = player.getMark();
+//       notRemark = true;
+//       if (count <= 6) count++;
+//     }
+//     return { gameBoard, notRemark };
+//   };
+
+//   checkStatus = function (board) {
+//     gameBoard = board;
+//     if (count >= 5) {
+//       for (let i = 0; i < 3; i++) {
+//         if (
+//           (gameBoard[i][i] === gameBoard[i][(i + 1) % 3] &&
+//             gameBoard[i][i] === gameBoard[i][(i + 2) % 3] &&
+//             gameBoard[i][i] !== "") ||
+//           (gameBoard[i][i] === gameBoard[(i + 1) % 3][i] &&
+//             gameBoard[i][i] === gameBoard[(i + 2) % 3][i] &&
+//             gameBoard[i][i] !== "")
+//         ) {
+//           return true;
+//         }
+//       }
+
+//       if (
+//         (gameBoard[1][1] !== "" &&
+//           gameBoard[2][0] === gameBoard[1][1] &&
+//           gameBoard[1][1] === gameBoard[0][2]) ||
+//         (gameBoard[1][1] !== "" &&
+//           gameBoard[0][0] === gameBoard[1][1] &&
+//           gameBoard[1][1] === gameBoard[2][2])
+//       ) {
+//         return true;
+//       }
+//     }
+//     return false;
+//   };
+
+//   isDraw = (board) => {
+//     for (let i = 0; i < 3; i++) {
+//       for (let j = 0; j < 3; j++) {
+//         if (board[i][j] === "") {
+//           return false;
+//         }
+//       }
+//     }
+//     return true;
+//   };
+
+//   return { markAt, checkStatus, isDraw };
+// })();
+
+class PlayControl {
+  static count = 0;
+
+  markAt(player, row, col, board) {
     let notRemark = false;
     let gameBoard = board;
     if (gameBoard[row][col] == "") {
       gameBoard[row][col] = player.getMark();
       notRemark = true;
-      if (count <= 6) count++;
+      if (PlayControl.count <= 6) PlayControl.count++;
     }
     return { gameBoard, notRemark };
-  };
+  }
 
-  checkStatus = function (board) {
+  checkStatus(board) {
     gameBoard = board;
-    if (count >= 5) {
+    if (PlayControl.count >= 5) {
       for (let i = 0; i < 3; i++) {
         if (
           (gameBoard[i][i] === gameBoard[i][(i + 1) % 3] &&
@@ -80,9 +138,9 @@ const playControl = (function () {
       }
     }
     return false;
-  };
+  }
 
-  isDraw = (board) => {
+  isDraw(board) {
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
         if (board[i][j] === "") {
@@ -91,10 +149,8 @@ const playControl = (function () {
       }
     }
     return true;
-  };
-
-  return { markAt, checkStatus, isDraw };
-})();
+  }
+}
 
 const gameControl = (function () {
   loadPage = () => {
