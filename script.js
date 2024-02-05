@@ -149,17 +149,14 @@ class GameControl {
         if (PlayControl.isDraw(mainBoard)) {
           GameControl.dialog.showModal();
           GameControl.winnerDisplay.textContent = `Draw`;
-          GameControl.replay.addEventListener(
-            "click",
-            GameControl.#reloadPage()
-          );
+          GameControl.replay.addEventListener("click", GameControl.#reloadPage);
         } else {
           if (PlayControl.checkStatus(mainBoard)) {
             GameControl.dialog.showModal();
             GameControl.winnerDisplay.textContent = `${currentPlayer.getName()} win the game`;
             GameControl.replay.addEventListener(
               "click",
-              GameControl.#reloadPage()
+              GameControl.#reloadPage
             );
           } else {
             currentPlayer =
